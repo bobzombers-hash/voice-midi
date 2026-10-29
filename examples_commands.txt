@@ -1,0 +1,8 @@
+load eight oh eight kick on pad three
+put the snare on controller two pad five
+arm track 2
+play scene one
+tempo one twenty eight
+next preset
+stop
+quit

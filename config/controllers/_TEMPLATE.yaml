@@ -1,0 +1,15 @@
+# Copy this file to <your_model>.yaml and edit. Every key is documented here.
+id: my_controller            # unique id, used in config.yaml `controllers:` list
+name: My Controller          # human name
+aliases: [my controller]     # extra spoken names: "put kick on pad 3 on my controller"
+port_match: ["My Controller"]   # substring(s) of the macOS MIDI port name (input & output)
+input_channel: 0             # 0-15 (mido is 0-based; channel 10 in a manual = 9 here)
+pads:                        # pad number (1-based, as spoken) -> MIDI note sent by the pad
+  layout: list               # 'list' (explicit) or 'grid' (rows x cols from a base note)
+  notes: [36, 37, 38, 39]
+led:
+  supported: true
+  channel: 0                 # channel LED messages are sent on
+  colors: {"off": 0, loaded: 21, playing: 5, armed: 5}   # velocity = colour index
+init_sysex: []               # optional list of sysex byte lists (without F0/F7) to send on connect
+verified: false              # set true once you've checked it against the real hardware

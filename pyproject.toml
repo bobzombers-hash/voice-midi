@@ -1,0 +1,25 @@
+[project]
+name = "voice-midi"
+dynamic = ["version"]
+description = "Voice-controlled MIDI controller bridge for Ableton Live, Logic Pro and AUTO/PILOT"
+requires-python = ">=3.9"
+dependencies = ["mido>=1.3", "pyyaml>=6"]
+
+[project.optional-dependencies]
+midi = ["python-rtmidi>=1.5", "python-osc>=1.8"]
+vosk = ["vosk>=0.3.45", "sounddevice>=0.4", "numpy"]
+whisper = ["faster-whisper>=1.0", "sounddevice>=0.4", "numpy"]
+keys = ["pynput>=1.7"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+voice-midi = "voice_midi.cli:main"
+
+[tool.setuptools]
+packages = ["voice_midi", "voice_midi.outputs"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.dynamic]
+version = {attr = "voice_midi.__version__"}

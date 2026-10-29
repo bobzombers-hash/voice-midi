@@ -1,0 +1,10 @@
+id: push3
+name: Ableton Push 3
+aliases: [push 3]
+# Push 3 in controller (tethered) mode exposes a User port like Push 2.
+port_match: ["Ableton Push 3 User Port", "Push 3 User", "Push 3"]
+input_channel: 0
+pads: {layout: grid, rows: 8, cols: 8, base_note: 36, row_stride: 8}
+led: {supported: true, channel: 0, colors: {"off": 0, loaded: 122, playing: 126, armed: 127}}
+init_sysex: []
+verified: false   # assumed identical pad notes to Push 2 in User mode — check on hardware

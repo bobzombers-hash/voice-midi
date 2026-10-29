@@ -1,0 +1,45 @@
+name: Release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install mido pyyaml pytest
+      - run: python -m pytest -q
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write          # create the GitHub Release
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install mido pyyaml
+      - name: Build zip + SHA256SUMS (fails if tag != voice_midi.__version__)
+        run: python tools/build_release.py --tag "${GITHUB_REF_NAME}"
+      - name: Profile checksums must be committed
+        run: git diff --exit-code config/controllers/SHA256SUMS
+      - name: Verify checksum
+        working-directory: dist
+        run: sha256sum -c SHA256SUMS
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" dist/*.zip dist/SHA256SUMS \
+            --title "voice-midi ${GITHUB_REF_NAME}" --generate-notes --verify-tag

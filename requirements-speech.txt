@@ -1,0 +1,8 @@
+# pick one backend (or both)
+sounddevice>=0.4
+numpy>=1.24
+vosk>=0.3.45          # offline, small model
+faster-whisper>=1.0   # better accuracy, bigger download on first run
+# Windows x64: all of the above have prebuilt wheels (use Python 3.12 for python-rtmidi).
+# Optional keyboard shortcuts on Windows/Linux:
+# pynput>=1.7

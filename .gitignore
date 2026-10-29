@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+.DS_Store
+Thumbs.db
+*.zip
+# local per-user stuff never belongs in the repo (it lives in %APPDATA% / Application Support)
+state.json
+session.lock

@@ -1,0 +1,79 @@
+# voice-midi main config. Paths are relative to this file unless absolute.
+controllers_dir: controllers
+
+# Exactly the controllers you have plugged in (any number; 2 is the typical rig).
+# "controller 1" / "controller 2" in speech refers to this order.
+controllers:
+  - id: launchpad_x
+    aliases: [left, one]
+  - id: push2
+    aliases: [right]
+
+default_controller: 1
+default_target: ableton          # ableton | logic | autopilot
+
+midi:
+  # Virtual port the DAW listens to. Picked per OS automatically ("auto" = the default below).
+  out_port:
+    mac: "IAC Driver Bus 1"      # Audio MIDI Setup > IAC Driver
+    windows: "loopMIDI Port"     # loopMIDI; change to whatever you named it, e.g. "VoiceMIDI"
+    linux: auto
+  out_channel: 0                 # 0-based; channel 1 in the DAW
+  # Pads are re-sent to the IAC bus as: note = drum_base_note + (controller-1)*controller_note_offset + (pad-1)
+  # so with defaults controller 1 pads 1-32 -> notes 36-67 and controller 2 -> 68-99, all in ONE Drum Rack.
+  drum_base_note: 36             # Drum Rack / Logic Drum Machine Designer pad 1 = C1 (36)
+  controller_note_offset: 32
+  per_controller_channel: false  # true = controller 1 on ch1, controller 2 on ch2 (for two separate instruments)
+  # CCs that voice commands send; MIDI-map them in Live (Cmd+M) or Logic Controller Assignments
+  cc:
+    next_preset: 102
+    prev_preset: 103
+    arm_track_base: 20           # arm track N -> CC 20+N-1
+    tempo: 104                   # value 0-127 mapped over tempo_range (fallback only)
+    stop_all: 105
+  tempo_range: [60, 187]
+
+targets:
+  ableton:
+    osc: {enabled: true, host: 127.0.0.1, port: 11000, reply_port: 11001}   # AbletonOSC defaults
+    key_commands:                # optional; macOS uses osascript, Windows needs `pip install pynput`
+      enabled: false
+      next_preset: {mac: "cmd+shift+]", windows: "ctrl+shift+]"}   # placeholder - set your own shortcut
+      prev_preset: {mac: "cmd+shift+[", windows: "ctrl+shift+["}
+    drum_rack_track: 1           # track holding the Drum Rack that pads load into
+  logic:                         # macOS only - automatically disabled on Windows
+    use_mmc: true                # transport via MIDI Machine Control (enable "Listen to MMC" in Logic)
+    key_commands:                # optional AppleScript keystrokes (needs Accessibility permission)
+      enabled: false
+      next_preset: "]"           # placeholder: assign your own in Logic > Key Commands
+      prev_preset: "["
+  autopilot:
+    osc: {enabled: true, host: 127.0.0.1, port: 9090}   # Settings > OSC in AUTO/PILOT; feedback on 9096
+
+# Spoken name -> sound. `file` = a sample on disk, `browser` = Ableton browser item name,
+# `logic_patch` = informational for Logic. `say` lists extra phrasings.
+sounds:
+  808 kick:   {file: ~/Music/Samples/Kicks/808 Kick.wav, browser: "Kick 808", say: [eight oh eight, 808, kick 808]}
+  kick:       {file: ~/Music/Samples/Kicks/Kick 01.wav, browser: "Kick 909"}
+  snare:      {file: ~/Music/Samples/Snares/Snare 01.wav, browser: "Snare 909"}
+  clap:       {file: ~/Music/Samples/Claps/Clap 01.wav, browser: "Clap 808"}
+  closed hat: {file: ~/Music/Samples/Hats/CH 01.wav, browser: "Hihat Closed 909", say: [hi hat, hat, hihat]}
+  open hat:   {file: ~/Music/Samples/Hats/OH 01.wav, browser: "Hihat Open 909"}
+  vocal chop: {file: ~/Music/Samples/Vox/Chop 01.wav, browser: "Vocal Chop"}
+  bass:       {browser: "Operator Bass", say: [bass synth]}
+
+speech:
+  backend: text            # text | vosk | whisper
+  vosk_model: ~/models/vosk-model-small-en-us-0.15   # ~ works on Windows too (C:\Users\you\models\...)
+  whisper_model: base.en   # faster-whisper size: tiny.en | base.en | small.en
+  push_to_talk_key: space  # terminal: press Enter to start/stop recording
+  sample_rate: 16000
+
+updates:
+  # auto = download + verify in the background of startup, install on the NEXT launch
+  # ask  = ask before downloading (prints a hint when not run from a terminal)
+  # off  = never check (also: env VOICE_MIDI_NO_UPDATE=1, or --no-update-check)
+  mode: ask
+  check_interval_hours: 24
+  profiles: false        # opt-in: fetch new/changed controller profiles from the repo (checksummed)
+  profiles_ref: main     # branch or tag to read profiles from

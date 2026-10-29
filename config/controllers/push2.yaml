@@ -1,0 +1,11 @@
+id: push2
+name: Ableton Push 2
+aliases: [push, push 2]
+# Use the User Port so the app does not fight Live's own Push script.
+# Put Push in User mode (press the User button) while using voice-midi pads.
+port_match: ["Ableton Push 2 User Port", "Push 2 User", "Push 2"]
+input_channel: 0
+pads: {layout: grid, rows: 8, cols: 8, base_note: 36, row_stride: 8}   # bottom-left = pad 1 = note 36
+led: {supported: true, channel: 0, colors: {"off": 0, loaded: 122, playing: 126, armed: 127}}
+init_sysex: []
+verified: false   # note layout from Ableton's Push 2 MIDI & display interface doc; palette indices unverified

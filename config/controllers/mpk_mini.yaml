@@ -1,0 +1,9 @@
+id: mpk_mini
+name: Akai MPK Mini (MK3 / Plus)
+aliases: [mpk, mpk mini, keyboard]
+port_match: ["MPK mini", "MPK Mini"]
+input_channel: 9          # pads default to MIDI channel 10
+pads: {layout: list, notes: [36,37,38,39,40,41,42,43, 44,45,46,47,48,49,50,51]}  # bank A then bank B
+led: {supported: false}   # pad LEDs are not host-addressable over plain MIDI
+init_sysex: []
+verified: false

@@ -1,0 +1,8 @@
+# core (dry-run + tests need only mido, pyyaml, pytest)
+mido>=1.3
+pyyaml>=6
+# real MIDI ports + OSC on the Mac
+python-rtmidi>=1.5
+python-osc>=1.8
+# dev
+pytest>=7

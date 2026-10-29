@@ -1,0 +1,10 @@
+id: launchpad_mini_mk3
+name: Novation Launchpad Mini MK3
+aliases: [launchpad mini, mini]
+port_match: ["LPMiniMK3 MIDI", "Launchpad Mini MK3"]
+input_channel: 0
+pads: {layout: grid, rows: 8, cols: 8, base_note: 11, row_stride: 10}
+led: {supported: true, channel: 0, colors: {"off": 0, loaded: 21, playing: 5, armed: 72}}
+init_sysex:
+  - [0x00, 0x20, 0x29, 0x02, 0x0D, 0x0E, 0x01]   # enter Programmer mode
+verified: false

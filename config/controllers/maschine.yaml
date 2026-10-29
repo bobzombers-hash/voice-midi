@@ -1,0 +1,10 @@
+id: maschine
+name: Native Instruments Maschine (MIDI mode)
+aliases: [maschine, machine]
+# Hold SHIFT+CHANNEL (MIDI) on MK3/Mikro to enter MIDI mode, or set a template in Controller Editor.
+port_match: ["Maschine", "MASCHINE"]
+input_channel: 0
+pads: {layout: list, notes: [36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]}   # pad 1 = bottom-left
+led: {supported: true, channel: 0, colors: {"off": 0, loaded: 40, playing: 127, armed: 127}}
+init_sysex: []
+verified: false   # LED feedback in MIDI mode depends on the Controller Editor template; may be ignored
